@@ -1,11 +1,11 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const webpack = require('webpack');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
-  entry: './src/App.tsx',
-  devtool: 'inline-source-map',
-  devServer: {
-    historyApiFallback: true,
+  entry: {
+    app: './src/App.tsx',
   },
   module: {
     rules: [
@@ -32,11 +32,8 @@ module.exports = {
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
   },
-  output: {
-    publicPath: '/',
-    filename: 'bundle.js',
-  },
   plugins: [
+    new webpack.ProgressPlugin(),
     new HtmlWebpackPlugin({
       template: path.resolve('./src/index.html'),
     }),

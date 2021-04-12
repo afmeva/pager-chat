@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "webpack serve --mode development"
+    "start": "webpack serve --open --config webpack.dev.js",
+    "build": "webpack --config webpack.prod.js"
   },
   "keywords": [],
   "author": "",
@@ -12,9 +13,8 @@
   "devDependencies": {
     "@types/react": "^17.0.3",
     "@types/react-dom": "^17.0.3",
-    "@types/styled-components": "^5.1.9",
-    "@types/react-router": "^5.1.13",
     "@types/react-router-dom": "^5.1.7",
+    "@types/styled-components": "^5.1.9",
     "css-loader": "^5.2.1",
     "html-webpack-plugin": "^5.3.1",
     "prettier": "2.2.1",
@@ -23,7 +23,8 @@
     "typescript": "^4.2.4",
     "webpack": "^5.31.2",
     "webpack-cli": "^4.6.0",
-    "webpack-dev-server": "^3.11.2"
+    "webpack-dev-server": "^3.11.2",
+    "webpack-merge": "^5.7.3"
   },
   "dependencies": {
     "react": "^17.0.2",
