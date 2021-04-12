@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import React from 'react';
-import { List, Message } from '../hooks/socket.hooks';
+import { ChatItem, Message } from '../hooks/socket.hooks';
 
 const Avatar = styled.img`
   border-radius: 6px;
@@ -10,7 +10,7 @@ const Avatar = styled.img`
   border: none;
 `;
 
-const UserName = styled.p`
+const UserName = styled.span`
   font-weight: bold;
   font-size: 14px;
 `;
@@ -31,21 +31,28 @@ const CardContainer = styled.div`
 
 const Img = styled.img`
   display: block;
-  height: 200px;
+  max-width: 100%;
+  max-height: 200px;
   margin-top: 4px;
 `;
 
-type cardProps = {
-  username: string;
-  userText: Message[];
-};
+const TimeStamp = styled.span`
+  font-size: 12px;
+  color: #b0b0b0;
+  margin-left: 10px;
+`;
 
-export const Card = ({ username, userText }: cardProps) => (
+export const Card = ({ username, messages }: ChatItem) => (
   <CardContainer>
     <Avatar src={`https://ui-avatars.com/api/?name=${username}`} />
     <div>
-      <UserName>{username}</UserName>
-      {userText.map((msg, index) =>
+      <div>
+        <UserName>{username}</UserName>
+        <TimeStamp>
+          {new Date(messages[messages.length - 1].time).toLocaleTimeString()}
+        </TimeStamp>
+      </div>
+      {messages.map((msg, index) =>
         msg.type === 'image' ? (
           <Img key={index} src={msg.url} alt={msg.alt} />
         ) : (

@@ -9,7 +9,6 @@ module.exports = merge(base, {
     historyApiFallback: true,
   },
   output: {
-    path: path.resolve(__dirname, 'dist'),
     publicPath: '/',
     filename: '[name].bundle.js',
   },

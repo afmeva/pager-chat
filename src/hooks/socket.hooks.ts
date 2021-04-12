@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { createSocket } from '../utils/socket';
-import { getConfigFile } from 'ts-loader/dist/config';
 
 export type Message = {
   type: 'image' | 'text';
@@ -10,44 +9,50 @@ export type Message = {
   url?: string;
   alt?: string | null;
 };
-
-export type List = {
-  [username: string]: {
-    messages: Message[];
-  };
+export type ChatItem = {
+  username: string;
+  messages: Message[];
 };
 
-const createMessage = (messages) => ({ messages });
-
-export const useMessages = (username: string): List => {
-  const [messages, setMessages] = useState<List>({});
+export const useChatItems = (username: string): ChatItem[] => {
+  const [chatItems, setChatItems] = useState<ChatItem[]>([]);
 
   const socket = createSocket('https://pager-hiring.herokuapp.com', username);
 
   useEffect(() => {
     if (socket) {
       socket.on('message', (message) => {
-        setMessages((messages) => {
-          const msg = messages[message.username] || createMessage([]);
-          return {
-            ...messages,
-            [message.username]: {
-              ...msg,
-              messages: [...msg.messages, message],
+        setChatItems((m) => {
+          const last = m[m.length - 1];
+
+          if (last && last.username === message.username) {
+            m.pop();
+            return [
+              ...m,
+              {
+                ...last,
+                messages: [...last.messages, message],
+              },
+            ];
+          }
+          return [
+            ...m,
+            {
+              username: message.username,
+              messages: [message],
             },
-          };
+          ];
         });
       });
     }
   }, [socket]);
-
-  return messages;
+  return chatItems;
 };
 
 export const useSendMessage = (username: string) => {
   const socket = createSocket('https://pager-hiring.herokuapp.com', username);
 
-  const [text, setText] = useState('');
+  const [text, setText] = useState<string>('');
 
   useEffect(() => {
     if (text) {
@@ -61,8 +66,8 @@ export const useSendMessage = (username: string) => {
 export const useSendImage = (username: string) => {
   const socket = createSocket('https://pager-hiring.herokuapp.com', username);
 
-  const [term, setTerm] = useState('');
-  const [url, setUrl] = useState('');
+  const [term, setTerm] = useState<string>('');
+  const [url, setUrl] = useState<string>('');
 
   useEffect(() => {
     const getGif = async () => {
@@ -97,7 +102,7 @@ export const useSendImage = (username: string) => {
 export const useSendIsTyping = (username) => {
   const socket = createSocket('https://pager-hiring.herokuapp.com', username);
 
-  const [isTyping, setIsTyping] = useState(false);
+  const [isTyping, setIsTyping] = useState<boolean>(false);
 
   let timeout = null;
   useEffect(() => {
@@ -116,7 +121,7 @@ export const useSendIsTyping = (username) => {
 export const useWhosTyping = (username) => {
   const socket = createSocket('https://pager-hiring.herokuapp.com', username);
 
-  const [users, setUsers] = useState([]);
+  const [users, setUsers] = useState<string[]>([]);
 
   useEffect(() => {
     socket.on('is-typing', (usersTyping) => {

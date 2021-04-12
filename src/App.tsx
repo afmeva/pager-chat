@@ -5,6 +5,8 @@ import { Login } from './components/Login';
 import { GlobalStyle } from './components/GlobalStyle';
 import { Chat } from './components/Chat';
 
+import './_redirects?raw';
+
 const App = () => {
   const [username, setUsername] = useState('');
   return (

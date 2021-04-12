@@ -4,6 +4,7 @@ import React, { Dispatch, SetStateAction, useCallback, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Input } from './Input';
 import { MainWrap } from './MainWrap';
+import { useAutoFocus } from '../hooks/autofocus.hook';
 
 const Title = styled.p`
   font-size: 32px;
@@ -53,6 +54,7 @@ type Props = {
 };
 export const Login = ({ onSubmit }: Props) => {
   const [username, setUsername] = useState('');
+  const autofocusRef = useAutoFocus();
 
   const onSubmitHandler = useCallback(
     (evt: React.FormEvent<HTMLFormElement>) => {
@@ -76,7 +78,7 @@ export const Login = ({ onSubmit }: Props) => {
           <InputWrap>
             <Input
               placeholder="Type in your username"
-              autoFocus
+              ref={autofocusRef}
               value={username}
               onChange={(event) => setUsername(event.target.value)}
             />

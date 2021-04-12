@@ -18,5 +18,6 @@ module.exports = merge(base, {
     clean: true,
     publicPath: '/',
     filename: '[name].[chunkhash:8].chunk.js',
+    assetModuleFilename: '[name]',
   },
 });

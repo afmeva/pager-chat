@@ -5,13 +5,15 @@ import { Input } from './Input';
 import { Card } from './Card';
 import { MainWrap } from './MainWrap';
 import {
-  useMessages,
+  useChatItems,
   useSendImage,
   useSendIsTyping,
   useSendMessage,
   useWhosTyping,
 } from '../hooks/socket.hooks';
 import { useAutoScroll } from '../hooks/autoscroll.hook';
+import { InputWithButton } from './InputWithButton';
+import { useAutoFocus } from '../hooks/autofocus.hook';
 
 const Form = styled.form`
   margin-top: 24px;
@@ -56,16 +58,18 @@ const ChatWrap = styled.div`
 type Props = {
   username: string;
 };
+
 export const Chat = ({ username }: Props) => {
   const [text, setText] = useState('');
 
-  const messages = useMessages(username);
+  const messages = useChatItems(username);
   const sendMessage = useSendMessage(username);
   const users = useWhosTyping(username);
-
-  const autoScrollRef = useAutoScroll();
   const sendIsTyping = useSendIsTyping(username);
   const sendImage = useSendImage(username);
+
+  const autoScrollRef = useAutoScroll();
+  const autofocusRef = useAutoFocus();
 
   const onChangeHandler = useCallback((evt) => {
     const value = evt.target.value;
@@ -78,12 +82,16 @@ export const Chat = ({ username }: Props) => {
     (evt) => {
       evt.preventDefault();
 
+      if (!text) {
+        return;
+      }
+
       const [cmd, ...rest] = text.split(' ');
       if (cmd === '/gif') {
         sendImage(rest.join(' '));
-        return;
+      } else {
+        sendMessage(text);
       }
-      sendMessage(text);
       setText('');
     },
     [text]
@@ -93,14 +101,14 @@ export const Chat = ({ username }: Props) => {
     <MainWrap>
       <Container>
         <ChatWrap ref={autoScrollRef}>
-          {Object.entries(messages).map(([username, { messages }], index) => (
-            <Card key={index} username={username} userText={messages} />
+          {messages.map((message, index) => (
+            <Card key={index} {...message} />
           ))}
         </ChatWrap>
         <Form onSubmit={onSubmitHandler}>
-          <Input
+          <InputWithButton
             placeholder="Message"
-            autoFocus
+            forwardedRef={autofocusRef}
             value={text}
             onChange={onChangeHandler}
           />

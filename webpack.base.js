@@ -26,6 +26,10 @@ module.exports = {
           },
         ],
       },
+      {
+        resourceQuery: /raw/,
+        type: 'asset/resource',
+      },
     ],
   },
   resolve: {
