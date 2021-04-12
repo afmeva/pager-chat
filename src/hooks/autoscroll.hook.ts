@@ -6,7 +6,8 @@ export const useAutoScroll = () => {
     if (elementRef && elementRef.current) {
       elementRef.current.addEventListener('DOMNodeInserted', (event) => {
         const { currentTarget: target } = event;
-        target.scroll({ top: target.scrollHeight, behavior: 'smooth' });
+        console.log(target);
+        target.scroll({ top: target.scrollHeight + 200, behavior: 'smooth' });
       });
     }
 
