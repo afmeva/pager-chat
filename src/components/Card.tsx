@@ -32,8 +32,12 @@ const CardContainer = styled.div`
 const Img = styled.img`
   display: block;
   max-width: 100%;
-  max-height: 200px;
+  height: 200px;
   margin-top: 4px;
+
+  @media (max-width: 400px) {
+    height: 100px;
+  }
 `;
 
 const TimeStamp = styled.span`
