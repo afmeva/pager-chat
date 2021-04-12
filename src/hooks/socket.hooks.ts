@@ -67,7 +67,7 @@ export const useSendImage = (username: string) => {
   useEffect(() => {
     const getGif = async () => {
       const response = await fetch(
-        `http://api.giphy.com/v1/gifs/random?api_key=W782v2Cc7KOxnpb5eZywWKttNd9xkI5p&tag=${term}`
+        `https://api.giphy.com/v1/gifs/random?api_key=W782v2Cc7KOxnpb5eZywWKttNd9xkI5p&tag=${term}`
       );
 
       const {

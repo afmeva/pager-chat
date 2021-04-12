@@ -4,7 +4,6 @@ const createSocketFactory = () => {
   let socket = null;
   return (url, username) => {
     if (!socket) {
-      console.log('SOCKET CONNECTION!');
       socket = io(url, {
         query: {
           username,
