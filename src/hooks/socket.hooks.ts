@@ -112,7 +112,7 @@ export const useSendIsTyping = (username) => {
 
     timeout = setTimeout(() => {
       setIsTyping(false);
-    }, 1000);
+    }, 2000);
   }, [isTyping]);
 
   return setIsTyping;
