@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import ReactDom from 'react-dom';
 import { BrowserRouter, Redirect, Route } from 'react-router-dom';
-import { Login } from './components/Login';
+
+import { Login } from './pages/Login';
+import { Chat } from './pages/Chat';
 import { GlobalStyle } from './components/GlobalStyle';
-import { Chat } from './components/Chat';
 
 import './_redirects?raw';
 

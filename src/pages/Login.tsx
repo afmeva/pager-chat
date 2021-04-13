@@ -1,9 +1,9 @@
-import styled from 'styled-components';
-import { Border } from './Border';
 import React, { Dispatch, SetStateAction, useCallback, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { Input } from './Input';
-import { MainWrap } from './MainWrap';
+import styled from 'styled-components';
+import { Border } from '../components/Border';
+import { Input } from '../components/Input';
+import { MainWrap } from '../components/MainWrap';
 import { useAutoFocus } from '../hooks/autofocus.hook';
 
 const Title = styled.p`

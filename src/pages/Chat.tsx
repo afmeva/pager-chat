@@ -1,9 +1,8 @@
 import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
-import { Border } from './Border';
-import { Input } from './Input';
-import { Card } from './Card';
-import { MainWrap } from './MainWrap';
+import { Border } from '../components/Border';
+import { Card } from '../components/Card';
+import { MainWrap } from '../components/MainWrap';
 import {
   useChatItems,
   useSendImage,
@@ -12,7 +11,7 @@ import {
   useWhosTyping,
 } from '../hooks/socket.hooks';
 import { useAutoScroll } from '../hooks/autoscroll.hook';
-import { InputWithButton } from './InputWithButton';
+import { InputWithButton } from '../components/InputWithButton';
 import { useAutoFocus } from '../hooks/autofocus.hook';
 
 const Form = styled.form`
@@ -53,6 +52,15 @@ const Container = styled(Border)`
 const ChatWrap = styled.div`
   height: 300px;
   overflow: auto;
+`;
+
+const EmptyState = styled.p`
+  width: 100%;
+  height: 100%;
+  font-size: 36px;
+  color: #c2c2c2;
+  display: flex;
+  align-items: center;
 `;
 
 type Props = {
@@ -101,9 +109,13 @@ export const Chat = ({ username }: Props) => {
     <MainWrap>
       <Container>
         <ChatWrap ref={autoScrollRef}>
-          {messages.map((message, index) => (
-            <Card key={index} {...message} />
-          ))}
+          {!messages.length ? (
+            <EmptyState>
+              Let the magic begins... start expressing yourself
+            </EmptyState>
+          ) : (
+            messages.map((message, index) => <Card key={index} {...message} />)
+          )}
         </ChatWrap>
         <Form onSubmit={onSubmitHandler}>
           <InputWithButton
